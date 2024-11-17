@@ -1,5 +1,7 @@
 package br.com.lds.springsecurity.atividade.main.dao.postgres.configuration;
 
+import br.com.lds.springsecurity.atividade.main.port.service.util.ResourceFileService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
@@ -12,6 +14,7 @@ import org.springframework.context.annotation.DependsOn;
 
 
 import javax.sql.DataSource;
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.*;
@@ -49,6 +52,26 @@ public class PostgresConnectionManagerConfiguration {
         hikariConfig.setUsername(databaseUserName);
         hikariConfig.setPassword(databasePassword);
         return new HikariDataSource(hikariConfig).getConnection();
+    }
+
+
+    @Autowired
+    private ResourceFileService resourceFileService;
+    @Bean
+    @DependsOn("getConnection")
+    public boolean createTableAndInsertData() throws SQLException, IOException, IOException {
+        Connection getConnection = getConnection();
+        final String basePath = "lds-db-scripts";
+        final String createTable = resourceFileService.
+                read(basePath + "/create-tables-postgres.sql");
+        PreparedStatement createStatement = getConnection.prepareStatement(createTable);
+        createStatement.executeUpdate();
+        createStatement.close();
+        final String insertData = resourceFileService.read(basePath + "/insert-data.sql");
+        PreparedStatement insertStatement = getConnection.prepareStatement(insertData);
+        insertStatement.execute();
+        insertStatement.close();
+        return true;
     }
 
     private void createDatabaseIfNotExists(Connection connection) throws SQLException {
