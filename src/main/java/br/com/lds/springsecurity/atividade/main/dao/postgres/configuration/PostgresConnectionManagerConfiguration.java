@@ -20,7 +20,7 @@ import java.sql.SQLException;
 import java.sql.*;
 
 @Configuration
-@Profile("prod")
+@Profile({"prod", "ldsSecurity"})
 public class PostgresConnectionManagerConfiguration {
     @Value("${spring.datasource.base.url}")
     private String databaseBaseUrl;
