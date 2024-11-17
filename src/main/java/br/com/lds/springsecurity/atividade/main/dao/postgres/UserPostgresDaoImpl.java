@@ -24,8 +24,8 @@ public class UserPostgresDaoImpl implements UserDao {
     @Override
     public int add(UserModel entity) {
         logger.log(Level.SEVERE, "perigo");
-        String sql = "INSERT INTO user_model(password, fullname, email) ";
-        sql += " VALUES(?, ?, ?);";
+        String sql = "INSERT INTO user_model(password, fullname, email, role) ";
+        sql += " VALUES(?, ?, ?, ?);";
         PreparedStatement preparedStatement;
         ResultSet resultSet;
         try {
@@ -34,6 +34,7 @@ public class UserPostgresDaoImpl implements UserDao {
             preparedStatement.setString(1, entity.getPassword());
             preparedStatement.setString(2, entity.getFullName());
             preparedStatement.setString(3, entity.getEmail());
+            preparedStatement.setString(4, entity.getRole().name());
             preparedStatement.execute();
             resultSet = preparedStatement.getGeneratedKeys();
             if (resultSet.next()){
@@ -70,6 +71,7 @@ public class UserPostgresDaoImpl implements UserDao {
                 user.setFullName(resultSet.getString("fullName"));
                 user.setEmail(resultSet.getString("email"));
                 user.setPassword(resultSet.getString("password"));
+                user.setRole(UserModel.UserRole.valueOf(resultSet.getString("role")));
                 logger.log(Level.INFO, "Entidade com id " + id + "encontrada com sucesso");
                 return user;
             }
@@ -98,6 +100,7 @@ public class UserPostgresDaoImpl implements UserDao {
                 user.setId(resultSet.getInt("id"));
                 user.setFullName(resultSet.getString("fullName"));
                 user.setEmail(resultSet.getString("email"));
+                user.setRole(UserModel.UserRole.valueOf(resultSet.getString("role")));
                 user.setPassword(resultSet.getString("password"));
                 users.add(user);
             }
@@ -125,7 +128,9 @@ public class UserPostgresDaoImpl implements UserDao {
                 final UserModel user = new UserModel();
                 user.setId(resultSet.getInt("id"));
                 user.setFullName(resultSet.getString("fullName"));
+                user.setEmail(resultSet.getString("email"));
                 user.setPassword(resultSet.getString("password"));
+                user.setRole(UserModel.UserRole.valueOf(resultSet.getString("role")));
                 logger.log(Level.INFO, "Entidade com email " + email + " encontrada com sucesso");
                 return user;
             }

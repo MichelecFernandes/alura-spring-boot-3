@@ -8,4 +8,10 @@ public class UserModel {
     private String email;
     private String password;
     private String fullName;
+    private UserRole role;
+    public enum UserRole{
+        ADMINISTRATOR,
+        USER
+    }
+
 }
