@@ -1,4 +1,4 @@
-package br.com.lds.springsecurity.atividade;
+package br.com.lds.springsecurity.atividade.application;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
