@@ -7,8 +7,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/user")
 public class UserRestController {
-    @GetMapping("listar")
+
+    @GetMapping()
+    public String testes(){
+        System.out.println("Cheguei no get");
+        return "Teste do get";
+    }
+
+    @GetMapping("/listar")
     public String get(){
+        System.out.println("Cheguei no get");
         return "Teste do get";
     }
     @PostMapping("criar")
