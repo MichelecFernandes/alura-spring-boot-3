@@ -1,24 +1,29 @@
 package br.com.lds.springsecurity.atividade.main.controller;
 
+import br.com.lds.springsecurity.atividade.main.domain.UserModel;
+import br.com.lds.springsecurity.atividade.main.port.service.user.UserService;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/user")
 public class UserRestController {
 
-    @GetMapping()
-    public String testes(){
-        System.out.println("Cheguei no get");
-        return "Teste do get";
+    private final UserService userService;
+    public UserRestController(UserService userService) {
+        this.userService = userService;
     }
 
-    @GetMapping("/listar")
-    public String get(){
-        System.out.println("Cheguei no get");
-        return "Teste do get";
+    @GetMapping()
+    public ResponseEntity<List<UserModel>> getEntities(){
+        List<UserModel> users = userService.findAll();
+        return ResponseEntity.ok().body(users);
     }
+
     @PostMapping("criar")
     public String post(){
         return "Teste do post";
