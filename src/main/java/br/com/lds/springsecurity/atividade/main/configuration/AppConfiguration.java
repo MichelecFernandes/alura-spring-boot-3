@@ -1,6 +1,7 @@
 package br.com.lds.springsecurity.atividade.main.configuration;
 
 import br.com.lds.springsecurity.atividade.main.dao.postgres.UserPostgresDaoImpl;
+import br.com.lds.springsecurity.atividade.main.port.service.authentication.AuthenticationService;
 import br.com.lds.springsecurity.atividade.main.port.service.user.UserDao;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,4 +15,9 @@ public class AppConfiguration {
     public UserDao getUserDao(final Connection connection) {
         return new UserPostgresDaoImpl(connection);
     }
+//    @Bean
+//    @Profile("prod")
+//    public AuthenticationService getAuthenticationService(UserService userService){
+//        return new BasicAuthenticationServiceImpl(userService);
+//    }
 }

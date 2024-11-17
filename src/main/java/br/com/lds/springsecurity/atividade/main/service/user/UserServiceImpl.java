@@ -1,7 +1,6 @@
-package br.com.lds.springsecurity.atividade.main.service;
+package br.com.lds.springsecurity.atividade.main.service.user;
 
 import br.com.lds.springsecurity.atividade.main.domain.UserModel;
-import br.com.lds.springsecurity.atividade.main.port.crud.UpdateService;
 import br.com.lds.springsecurity.atividade.main.port.service.user.UserDao;
 import br.com.lds.springsecurity.atividade.main.port.service.user.UserService;
 import org.springframework.stereotype.Service;
