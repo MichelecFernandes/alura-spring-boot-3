@@ -1,12 +1,13 @@
 package br.com.lds.springsecurity.atividade.main.service.util;
 
 import br.com.lds.springsecurity.atividade.main.port.service.util.ResourceFileService;
+import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-
+@Service
 public class ResourceFileHandlerService implements ResourceFileService {
     @Override
     public String read(String resourcePath) throws IOException {

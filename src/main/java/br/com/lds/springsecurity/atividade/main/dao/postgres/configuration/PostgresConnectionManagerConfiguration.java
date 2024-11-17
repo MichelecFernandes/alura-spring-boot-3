@@ -61,7 +61,7 @@ public class PostgresConnectionManagerConfiguration {
     @DependsOn("getConnection")
     public boolean createTableAndInsertData() throws SQLException, IOException, IOException {
         Connection getConnection = getConnection();
-        final String basePath = "lds-db-scripts";
+        final String basePath = "database";
         final String createTable = resourceFileService.
                 read(basePath + "/create-tables-postgres.sql");
         PreparedStatement createStatement = getConnection.prepareStatement(createTable);
