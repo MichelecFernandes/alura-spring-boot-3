@@ -1,9 +1,12 @@
 package br.com.lds.springsecurity.atividade.main.configuration;
 
 import br.com.lds.springsecurity.atividade.main.dao.postgres.UserPostgresDaoImpl;
+import br.com.lds.springsecurity.atividade.main.port.service.authentication.AuthenticationService;
 import br.com.lds.springsecurity.atividade.main.port.service.user.UserDao;
+import br.com.lds.springsecurity.atividade.main.port.service.user.UserService;
 import br.com.lds.springsecurity.atividade.main.security.JwtService;
 import br.com.lds.springsecurity.atividade.main.security.JwtServiceImpl;
+import br.com.lds.springsecurity.atividade.main.service.authentication.JwtAuthenticationServiceImpl;
 import io.swagger.v3.oas.models.OpenAPI;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +31,11 @@ public class AppConfiguration {
                 description("Atividade  de LDS sobre Spring Security"));
     }
 
+    @Bean
+    @Profile("ldsSecurity")
+    public AuthenticationService jwtAuthenticationService(final UserService userService, final PasswordEncoder passwordEncoder){
+        return new JwtAuthenticationServiceImpl(userService, passwordEncoder);
+    }
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

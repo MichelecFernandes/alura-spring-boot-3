@@ -2,7 +2,7 @@ package br.com.lds.springsecurity.atividade.main.security;
 
 import br.com.lds.springsecurity.atividade.main.domain.UserModel;
 import br.com.lds.springsecurity.atividade.main.dto.JwtTokenDto;
-import br.com.lds.springsecurity.atividade.main.service.authentication.AuthenticationService;
+import br.com.lds.springsecurity.atividade.main.port.service.authentication.AuthenticationService;
 import org.springframework.context.annotation.Profile;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.BadCredentialsException;

@@ -59,7 +59,7 @@ public class PostgresConnectionManagerConfiguration {
     private ResourceFileService resourceFileService;
     @Bean
     @DependsOn("getConnection")
-    public boolean createTableAndInsertData() throws SQLException, IOException, IOException {
+    public boolean createTableAndInsertData() throws SQLException, IOException {
         Connection getConnection = getConnection();
         final String basePath = "database";
         final String createTable = resourceFileService.
