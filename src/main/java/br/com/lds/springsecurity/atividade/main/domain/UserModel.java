@@ -10,8 +10,8 @@ public class UserModel {
     private String fullName;
     private UserRole role;
     public enum UserRole{
-        ADMINISTRATOR,
-        USER
+        MASTER,
+        CLIENT
     }
 
 }

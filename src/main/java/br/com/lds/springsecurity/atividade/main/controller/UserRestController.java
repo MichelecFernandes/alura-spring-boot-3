@@ -18,17 +18,17 @@ public class UserRestController {
         this.userService = userService;
     }
 
-    @GetMapping("/list")
+    @GetMapping("/find-all")
     public ResponseEntity<List<UserModel>> getEntities() {
         List<UserModel> users = userService.findAll();
         return ResponseEntity.ok().body(users);
     }
-    @GetMapping("/{id}")
+    @GetMapping("/find-by-id/{id}")
     public ResponseEntity<UserModel> getEntityById(@PathVariable final int id){
         UserModel user = userService.findById(id);
         return ResponseEntity.ok().body(user);
     }
-    @GetMapping("/email/{email}")
+    @GetMapping("/find-by-email/{email}")
     public  ResponseEntity<UserModel> getEntityByEmail(@PathVariable final String email){
         UserModel user = userService.findByEmail(email);
         return ResponseEntity.ok().body(user);

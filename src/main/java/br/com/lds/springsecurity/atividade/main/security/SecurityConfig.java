@@ -36,16 +36,20 @@ public class SecurityConfig {
                 .authorizeHttpRequests(
                         auth -> auth
                                 .requestMatchers(
-                                        "/listar",
                                         "/swagger-ui.html",
                                         "/swagger-ui/**",
                                         "/v3/api-docs/**",
                                         "/h2-console/**",
                                         "/authenticate"
                                 ).permitAll()
-                                .requestMatchers("/api/user/**")
-                                .hasAuthority(UserModel.UserRole.USER.name())
-                                .anyRequest().authenticated()).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).headers(
+                                .requestMatchers("/api/user/find-all")
+                                .hasAuthority(UserModel.UserRole.CLIENT.name())
+                                .requestMatchers("/api/user/find-by-id/{id}")
+                                .hasAuthority(UserModel.UserRole.MASTER.name())
+                                .requestMatchers("/api/user/find-by-email/{email}")
+                                .hasAnyAuthority(UserModel.UserRole.MASTER.name(), UserModel.UserRole.CLIENT.name())
+                                .anyRequest().authenticated()
+                ).sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)).headers(
                         headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin)).addFilterBefore(jwtRequestFilter, UsernamePasswordAuthenticationFilter.class)
         ;
         return http.build();
