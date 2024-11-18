@@ -1,4 +1,4 @@
-DROP TABLE user_model IF EXISTS;
+DROP TABLE IF EXISTS user_model;
 DROP TYPE IF EXISTS user_role;
 CREATE TYPE user_role AS ENUM ('ADMINISTRATOR', 'USER');
 CREATE TABLE user_model

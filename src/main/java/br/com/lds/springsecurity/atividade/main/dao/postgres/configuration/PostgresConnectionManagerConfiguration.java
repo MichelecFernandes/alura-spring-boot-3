@@ -22,14 +22,21 @@ import java.sql.*;
 @Configuration
 @Profile({"prod", "ldsSecurity"})
 public class PostgresConnectionManagerConfiguration {
+
     @Value("${spring.datasource.base.url}")
     private String databaseBaseUrl;
+
+
     @Value("${spring.datasource.url}")
     private String databaseUrl;
+
+
     @Value("${spring.datasource.username}")
     private String databaseUserName;
+
     @Value("${spring.datasource.password}")
     private String databasePassword;
+
     @Value("${spring.datasource.name}")
     private String databaseName;
 
@@ -40,10 +47,14 @@ public class PostgresConnectionManagerConfiguration {
                 .url(databaseBaseUrl)
                 .username(databaseUserName)
                 .password(databasePassword).build();
+
         final Connection connection = build.getConnection();
         createDatabaseIfNotExists(connection);
+
         return build;
     }
+
+
     @Bean
     @DependsOn("dataSource")
     public Connection getConnection() throws SQLException {
@@ -52,42 +63,59 @@ public class PostgresConnectionManagerConfiguration {
         hikariConfig.setUsername(databaseUserName);
         hikariConfig.setPassword(databasePassword);
         return new HikariDataSource(hikariConfig).getConnection();
-    }
 
+    }
 
     @Autowired
     private ResourceFileService resourceFileService;
+
     @Bean
     @DependsOn("getConnection")
     public boolean createTableAndInsertData() throws SQLException, IOException {
         Connection getConnection = getConnection();
+
         final String basePath = "database";
         final String createTable = resourceFileService.
                 read(basePath + "/create-tables-postgres.sql");
         PreparedStatement createStatement = getConnection.prepareStatement(createTable);
         createStatement.executeUpdate();
         createStatement.close();
+
+
         final String insertData = resourceFileService.read(basePath + "/insert-data.sql");
+
         PreparedStatement insertStatement = getConnection.prepareStatement(insertData);
         insertStatement.execute();
         insertStatement.close();
+
+
         return true;
+
+
     }
 
     private void createDatabaseIfNotExists(Connection connection) throws SQLException {
+
         final Statement statement = connection.createStatement();
         String sql = "SELECT COUNT(*) AS dbs ";
         sql += " FROM pg_catalog.pg_database ";
         sql += " WHERE lower(datname) = '" + databaseName + "';";
         ResultSet resultSet = statement.executeQuery(sql);
+
         boolean dbExists = resultSet.next();
         if (!dbExists || resultSet.getInt("dbs") == 0) {
             String createDatabaseSql = "CREATE DATABASE " + databaseName + " WITH ";
             createDatabaseSql += " OWNER = postgres ENCODING = 'UTF8' ";
             createDatabaseSql += " CONNECTION LIMIT = -1; ";
+
             PreparedStatement preparedStatement = connection.prepareStatement(createDatabaseSql);
             preparedStatement.executeUpdate();
             preparedStatement.close();
+
         }
+
+
     }
+
+
 }

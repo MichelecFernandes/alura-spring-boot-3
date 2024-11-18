@@ -7,3 +7,5 @@ CREATE TABLE user_model
     password varchar(50) not null,
     PRIMARY KEY (id)
 );
+
+
